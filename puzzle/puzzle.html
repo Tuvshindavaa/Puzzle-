@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<title>Puzzle</title>
+<script type="text/javascript">
+
+var myMap = new Map();	
+var startTime = 0;
+var endTime = 0;
+var countMatched = 0;	
+var countTried = 0;
+var firstButtonID = -1;
+
+function start()
+	{    
+		disabledButtonsTrue(); 
+		document.getElementById("labelResult").innerHTML = startTime;
+		check();
+    }
+
+function check(){
+	
+			var myArray = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7];			
+			var shuffledArray = (shuffle(myArray));							
+			myMap.set("b00", shuffledArray[0]);
+			myMap.set("b01", shuffledArray[1]);
+			myMap.set("b02", shuffledArray[2]);
+			myMap.set("b03", shuffledArray[3]); 
+			myMap.set("b10", shuffledArray[4]);
+			myMap.set("b11", shuffledArray[5]);
+			myMap.set("b12", shuffledArray[6]);
+			myMap.set("b13", shuffledArray[7]);
+			myMap.set("b20", shuffledArray[8]);
+			myMap.set("b21", shuffledArray[9]);
+			myMap.set("b22", shuffledArray[10]);
+			myMap.set("b23", shuffledArray[11]);
+			myMap.set("b30", shuffledArray[12]);
+			myMap.set("b31", shuffledArray[13]);
+			myMap.set("b32", shuffledArray[14]);
+			myMap.set("b33", shuffledArray[15]);
+			
+			fillInnerHTML(shuffledArray); 			 		
+			setTimeout(clearInnerHTML, 5000); 
+			startTime = new Date();
+			document.getElementById("labelResult").innerHTML = "Тоглоом эхэллээ.";							
+		}		
+			
+			
+function fillInnerHTML(myShuffledArray)
+			{	
+			document.getElementById("b00").innerHTML = '<img src= '+myShuffledArray[0]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b01").innerHTML = '<img src= '+myShuffledArray[1]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b02").innerHTML = '<img src= '+myShuffledArray[2]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b03").innerHTML = '<img src= '+myShuffledArray[3]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b10").innerHTML ='<img src= '+myShuffledArray[4]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b11").innerHTML = '<img src= '+myShuffledArray[5]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b12").innerHTML = '<img src= '+myShuffledArray[6]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b13").innerHTML = '<img src= '+myShuffledArray[7]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b20").innerHTML = '<img src= '+myShuffledArray[8]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b21").innerHTML = '<img src= '+myShuffledArray[9]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b22").innerHTML = '<img src= '+myShuffledArray[10]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b23").innerHTML = '<img src= '+myShuffledArray[11]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b30").innerHTML = '<img src= '+myShuffledArray[12]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b31").innerHTML = '<img src= '+myShuffledArray[13]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b32").innerHTML = '<img src= '+myShuffledArray[14]+'.ico height="90px" width="90px"/>';
+			document.getElementById("b33").innerHTML = '<img src= '+myShuffledArray[15]+'.ico height="90px" width="90px"/>';
+			
+			
+			}
+function clearInnerHTML(){
+			document.getElementById("b00").innerHTML= "";
+			document.getElementById("b01").innerHTML= "";
+			document.getElementById("b02").innerHTML= "";
+			document.getElementById("b03").innerHTML= "";
+			document.getElementById("b10").innerHTML= "";
+			document.getElementById("b11").innerHTML= "";
+			document.getElementById("b12").innerHTML= "";
+			document.getElementById("b13").innerHTML= "";
+			document.getElementById("b20").innerHTML= "";
+			document.getElementById("b21").innerHTML= "";
+			document.getElementById("b22").innerHTML= "";
+			document.getElementById("b23").innerHTML= "";
+			document.getElementById("b30").innerHTML= "";
+			document.getElementById("b31").innerHTML= "";
+			document.getElementById("b32").innerHTML= "";
+			document.getElementById("b33").innerHTML= "";
+		}
+
+function disabledButtonsTrue(){
+			document.getElementById("b00").disabled= false;
+			document.getElementById("b01").disabled= false;
+			document.getElementById("b02").disabled= false;
+			document.getElementById("b03").disabled= false;
+			document.getElementById("b10").disabled= false;
+			document.getElementById("b11").disabled= false;
+			document.getElementById("b12").disabled= false;
+			document.getElementById("b13").disabled= false;
+			document.getElementById("b20").disabled= false;
+			document.getElementById("b21").disabled= false;
+			document.getElementById("b22").disabled= false;
+			document.getElementById("b23").disabled= false;
+			document.getElementById("b30").disabled= false;
+			document.getElementById("b31").disabled= false;
+			document.getElementById("b32").disabled= false;
+			document.getElementById("b33").disabled= false;
+}
+	
+
+function pushed(buttonID){
+
+			document.getElementById(buttonID).innerHTML = '<img src= '+myMap.get(buttonID)+'.ico height="90px" width="90px"/>';
+					
+			document.getElementById("temp").innerHTML = document.getElementById("temp").innerHTML + myMap.get(buttonID);			
+			var res = document.getElementById("temp").innerHTML;
+			
+			if(res.length == 1){					
+				document.getElementById("fButton").innerHTML = buttonID;
+				firstButtonID = document.getElementById("fButton").innerHTML;
+			}	
+			if(res.length == 2)
+			{	
+				countTried++;
+				
+				if(res.substr(0,1) !== res.substr(1,1))
+				{		
+					document.getElementById(buttonID).innerHTML = "";
+					document.getElementById(firstButtonID).innerHTML = "";						
+					
+								
+				}
+				if(res.substr(0,1) == res.substr(1,1))
+				{	
+					countMatched++;					
+					document.getElementById(buttonID).setAttribute("style","visibility:hidden");
+					document.getElementById(firstButtonID).setAttribute("style","visibility:hidden");					
+					document.getElementById("labelResult").innerHTML = countMatched +"/" + 8 +" matched. You tried " +countTried +" times.";
+					
+					
+					if(countMatched==8)
+					{
+						endTime = new Date();
+						var timeDiff = endTime - startTime;
+						timeDiff /= 1000; 
+						var seconds = Math.round(timeDiff);
+						window.alert("Баяр хүргье. Та " + seconds +"  cекундэд тоглоомыг дуусгалаа");
+					}							
+				}						
+				res = "";
+				document.getElementById("temp").innerHTML = "";				
+			}
+			
+		}
+			
+function shuffle(array) {
+    var ctr = array.length, temp, index; 	
+    while (ctr > 0) {	
+        index = Math.floor(Math.random() * ctr);	
+        ctr--; 	
+        temp = array[ctr];
+        array[ctr] = array[index];
+        array[index] = temp;
+    }
+    return array;
+}
+
+
+</script>
+</head>
+<body>
+<center>
+<a style="text-decoration: none; font-size: 2em;" href="/">
+<span style="color:#3377CC;">Ой тогтоолт шалгах тоглоом</span>
+</a>
+<br />
+<h4 id="uyari" style="color: #fc4f3f;"><span style="color:#3377CC;">-- </span>8 Puzzle<span style="color:#3377CC;"> --</span></h4>
+<br />
+<table>	
+<div id="puzzle">
+ <tr><td><button id="b00" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled >.</button></td><td><button id="b01" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b02" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b03" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td></tr>
+ <tr><td> <button id="b10" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled >.</button></td><td><button id="b11" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b12" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b13" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td></tr>
+ <tr><td><button id="b20" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b21"  class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b22" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b23" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td></tr>
+ <tr><td><button id="b30" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b31"  class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b32" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled>.</button></td><td><button id="b33" class="btn btn-default" onclick="pushed(this.id)" style="width:100px; height:100px;font-size: 30px;color:#3377CC;" disabled >.</button></td></tr>
+</div>
+</table>
+<br />
+<button class="btn btn-default" style="width:200px; height:50px;font-size: 20px;color:#fc4f3f;" onclick="start()">Эхлэх</button>
+<br /><br />
+<p id = "labelResult">...</p>
+<h4><span style="color: #fc4f3f;">MUIS</span> <span style="color:#3377CC;">Ulaanbaatar, 2018</span></h4>
+<p id = "temp" style="visibility:hidden"></p>
+<p id = "fButton" style="visibility:hidden"></p>
+</center>
+</body>
+</html>
